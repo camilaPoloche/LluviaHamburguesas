@@ -4,12 +4,14 @@
  */
 package autonoma.lluviahamburguesas.elements;
 
+import autonoma.lluviahamburguesasBase.elements.Sprite;
+
 /**
  *
- * @author maria
+ * @author Camila
  */
-public class HiloAnadirComida implements Runnable {
-    /**
+public class HiloMoverSprites implements Runnable{
+     /**
      * instancia de la clase Cielo
     */
     private Cielo cielo;
@@ -23,7 +25,7 @@ public class HiloAnadirComida implements Runnable {
     * Inicializa los atributos de la clase HiloAnadirPulgaMutante
     * @param cielo
     */
-    public HiloAnadirComida(Cielo cielo) {
+    public HiloMoverSprites(Cielo cielo) {
         this.cielo = cielo;
     }
     
@@ -32,12 +34,16 @@ public class HiloAnadirComida implements Runnable {
     */
     @Override
     public void run() {
-        while (running) {
-            this.cielo.addComida();
+         while (running) {
+            for (Sprite sprite : this.cielo.getCopiaSprites()) {
+                sprite.move(); // mueve cada sprite
+            }
+            
+            cielo.actualizarSprites(); // mueve los objetos
             try {
-                Thread.sleep(1000); 
+                Thread.sleep(30); // actualiza cada 30ms (33fps aprox.)
             } catch (InterruptedException e) {
-                
+                // opcional: manejar interrupciones
             }
         }
     }

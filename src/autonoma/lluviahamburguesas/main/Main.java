@@ -7,6 +7,7 @@ package autonoma.lluviahamburguesas.main;
 import autonoma.lluviahamburguesas.elements.Cielo;
 import autonoma.lluviahamburguesas.elements.HiloAnadirComida;
 import autonoma.lluviahamburguesas.elements.HiloAnadirVeneno;
+import autonoma.lluviahamburguesas.elements.HiloMoverSprites;
 import autonoma.lluviahamburguesas.gui.GameWindow;
 
 /**
@@ -21,6 +22,7 @@ public class Main {
         // Se crean los hilos que agregan y mueven las pulgas
         Thread hilo1 = new Thread(new HiloAnadirComida(cielo));
         Thread hilo2 = new Thread(new HiloAnadirVeneno(cielo));
+        Thread hilo3 = new Thread(new HiloMoverSprites(cielo));
         
         
         // Se crea la ventana grafica del juego
@@ -33,7 +35,7 @@ public class Main {
         window.setVisible(true);
         hilo1.start();
         hilo2.start();
-    
+        hilo3.start();
     }
 }
 

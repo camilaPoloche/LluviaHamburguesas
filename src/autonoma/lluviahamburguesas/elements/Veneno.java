@@ -119,20 +119,6 @@ public class Veneno extends Sprite{
         }
     }
 
-
-    /**
-     * Dibuja la imagen de la pulga sobre el contexto grafico
-     * @param g contexto gráfico
-     */
-    public void drawImage(Graphics g) {
-        if (image != null) {
-            g.drawImage(image, x, y, width, height, null);
-        } else {
-            g.setColor(color != null ? color : Color.BLACK);
-            g.fillRect(x, y, width, height);
-        }
-    }
-
     /**
      * Devuelve los limites de la imagen como un rectangulo
      * @return objeto Rectangle con los límites de la imagen
@@ -143,6 +129,11 @@ public class Veneno extends Sprite{
 
     @Override
     public void paint(Graphics g) {
-        
+        if (image != null) {
+            g.drawImage(image, x, y, width, height, null);
+        } else {
+            g.setColor(color != null ? color : Color.BLACK);
+            g.fillRect(x, y, width, height);
+        }
     }
 }

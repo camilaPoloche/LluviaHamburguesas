@@ -49,8 +49,8 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
      */
     private int puntaje;
     
-    private static final int MAX_COMIDAS_EN_PANTALLA = 4;
-    private static final int MAX_VENENOS_EN_PANTALLA = 4;
+    private static final int CANTIDAD_MAX_COMIDA = 4;
+    private static final int CANTIDAD_MAX_VENENO = 4;
     
     private BufferedImage image;
     private BufferedImage buffer;
@@ -87,10 +87,9 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
 
         this.puntaje = 0;
         buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
     }
     
-    public synchronized void inicializarSpritesDisponibles() {
+    public void inicializarSpritesDisponibles() {
         sprites.clear();
         for (int i = 0; i < 4; i++) {
             Comida comida = new Comida("/autonoma/lluviahamburguesas/images/Hamburguesa.png", 
@@ -104,75 +103,82 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
             sprites.add(veneno);
         }
     }
-    
-    public synchronized void agregarSpritesAleatorios() {
-        while (spritesEnPantalla.size() < 4 && !sprites.isEmpty()) {
-            int indice = (int)(Math.random() * sprites.size());
-            Sprite sprite = sprites.remove(indice);
-            spritesEnPantalla.add(sprite);
-        }
-        refresh(); 
-    }
-    
-    public synchronized void verificarYAgregarNuevosSprites() {
-        ArrayList <Sprite> eliminados = new ArrayList<>();
-        for (Sprite s : spritesEnPantalla) {
-            if (!sprites.contains(s)) {
-                eliminados.add(s);
-            }
-        }
-        
-        spritesEnPantalla.removeAll(eliminados);
-
-        if (spritesEnPantalla.size() <= 1) {
-            inicializarSpritesDisponibles();
-            agregarSpritesAleatorios();
-        }
-    }
-    
-    public synchronized void addComida() {
-        if (comidasEnPantalla.size() < MAX_COMIDAS_EN_PANTALLA) {
-            Comida nuevaComida = new Comida("/autonoma/lluviahamburguesas/images/Hamburguesa.png",
-                (int)(Math.random() * (this.width - 50)), 0, 50, 50);
-            nuevaComida.setGraphicContainer(this);
-            comidasEnPantalla.add(nuevaComida);
-            spritesEnPantalla.add(nuevaComida);
-            refresh();
-        }
-    }
-
-    // Este método agrega un veneno si hay menos de 4
-    public synchronized void addVeneno() {
-        if (venenosEnPantalla.size() < MAX_VENENOS_EN_PANTALLA) {
-            Veneno nuevoVeneno = new Veneno("/autonoma/lluviahamburguesas/images/Cigarrillo.png",
-                (int)(Math.random() * (this.width - 50)), 0, 50, 50);
-            nuevoVeneno.setGraphicContainer(this);
-            venenosEnPantalla.add(nuevoVeneno);
-            spritesEnPantalla.add(nuevoVeneno);
-            refresh();
-        }
-    }
-    
-    public synchronized void eliminarSprite(Sprite sprite) {
-        spritesEnPantalla.remove(sprite);
-        if (sprite instanceof Comida) {
-            comidasEnPantalla.remove(sprite);
-        } else if (sprite instanceof Veneno) {
-            venenosEnPantalla.remove(sprite);
-        }
-        refresh();
-    }
-    
-    public synchronized void actualizarSprites() {
-        for (Sprite sprite : spritesEnPantalla) {
-            if (sprite instanceof Comida) {
-                ((Comida) sprite).move();
-            } else if (sprite instanceof Veneno) {
-                ((Veneno) sprite).move();
-            }
-        }
-        refresh();
-    }
+//    
+//    public void addComida() {
+//        int w = 50;
+//        int h = 50;
+//        boolean chocadas = false;
+//        do{
+//            for (Sprite sprite : sprites) {
+//                int distanciaX = Math.abs(x - sprite.getX());
+//                int distanciaY = Math.abs(y - sprite.getY());
+//
+//                if (distanciaX < w && distanciaY < h) {
+//                    chocadas = true;
+//                    break;
+//                }
+//            }
+//            
+//            if (sprites.size() < MAX_COMIDAS_EN_PANTALLA) {
+//                Comida nuevaComida = new Comida("/autonoma/lluviahamburguesas/images/Hamburguesa.png",
+//                    (int)(Math.random() * (this.width - 50)), 60, 50, 50);
+//                nuevaComida.setGraphicContainer(this);
+//                nuevaComida.iniciarMovimiento();
+//                comidasEnPantalla.add(nuevaComida);
+//                spritesEnPantalla.add(nuevaComida);
+//                refresh();
+//            }
+//        }while(chocadas);
+//    }
+//
+//    // Este método agrega un veneno si hay menos de 4
+//    public void addVeneno() {
+//        int w = 50;
+//        int h = 50;
+//        boolean chocadas = false;
+//        do{
+//            for (Sprite sprite : sprites) {
+//                int distanciaX = Math.abs(x - sprite.getX());
+//                int distanciaY = Math.abs(y - sprite.getY());
+//
+//                if (distanciaX < w && distanciaY < h) {
+//                    chocadas = true;
+//                    break;
+//                }
+//            }
+//            
+//            if (venenosEnPantalla.size() < MAX_VENENOS_EN_PANTALLA) {
+//                Veneno nuevoVeneno = new Veneno("/autonoma/lluviahamburguesas/images/Cigarrillo.png",
+//                    (int)(Math.random() * (this.width - 50)), 60, w, h);
+//                nuevoVeneno.setGraphicContainer(this);
+//                nuevoVeneno.iniciarMovimiento();
+//                venenosEnPantalla.add(nuevoVeneno);
+//                spritesEnPantalla.add(nuevoVeneno);
+//                refresh();
+//            }
+//        }while(chocadas);
+//    }
+//    
+//    public void eliminarSprite(Sprite sprite) {
+//        spritesEnPantalla.remove(sprite);
+//        if (sprite instanceof Comida) {
+//            comidasEnPantalla.remove(sprite);
+//        } else if (sprite instanceof Veneno) {
+//            venenosEnPantalla.remove(sprite);
+//        }
+//        refresh();
+//    }
+//    
+//    public void actualizarSprites() {
+//        for (Sprite sprite : spritesEnPantalla) {
+//            if (sprite instanceof Comida) {
+//                ((Comida) sprite).move();
+//            } else if (sprite instanceof Veneno) {
+//                ((Veneno) sprite).move();
+//            }
+//        }
+//        refresh();
+//    }
 
     /**
      * Elimina pulgas cercanas a una coordenada con el arma Pulguipium
@@ -231,7 +237,7 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
         gBuffer.drawString("Puntaje: ", 10, 55);
         gBuffer.drawString(this.puntaje + "", 120, 57);
 
-        ArrayList<Sprite> copiaSprites = new ArrayList<>(sprites);
+        ArrayList<Sprite> copiaSprites = new ArrayList<>(spritesEnPantalla);
         for (Sprite sprite : copiaSprites) {
             sprite.paint(gBuffer);
         }
