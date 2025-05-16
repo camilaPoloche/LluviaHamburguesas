@@ -25,8 +25,8 @@ public class SpriteMobile extends Sprite{
      * @param height
      * @param width 
      */
-    public SpriteMobile(int x, int y, int height, int width) {
-        super(x, y, height, width);
+    public SpriteMobile(String path, int x, int y, int height, int width) {
+        super(path, x, y, height, width);
     }
     
     /**

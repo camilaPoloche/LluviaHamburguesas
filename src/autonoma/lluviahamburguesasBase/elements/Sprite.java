@@ -7,6 +7,9 @@ package autonoma.lluviahamburguesasBase.elements;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 /**
  * Modelo que permite representar un GraphicContainer
  * @author Camila
@@ -40,6 +43,12 @@ public abstract class Sprite {
     * Contenedor del Sprite
     */
     protected GraphicContainer gameContainer;
+    
+    /**
+    * Imagen
+    */
+  
+    private BufferedImage image;
 
     /**
      * Inicializa los atributos de la clase Sprite
@@ -48,7 +57,15 @@ public abstract class Sprite {
      * @param height
      * @param width
     */
-    public Sprite(int x, int y, int height, int width) {
+    
+    public Sprite(String path, int x, int y, int height, int width) {
+        
+        try {
+            this.image = ImageIO.read(getClass().getResource(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+         
         this.x = x;
         this.y = y;
         this.height = height;

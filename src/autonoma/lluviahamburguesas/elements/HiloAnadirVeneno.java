@@ -1,0 +1,47 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package autonoma.lluviahamburguesas.elements;
+
+/**
+ *
+ * @author maria
+ */
+public class HiloAnadirVeneno implements Runnable{
+    
+    /**
+     * instancia de la clase Cielo
+    */
+    private Cielo cielo;
+    
+     /**
+     * bandera de control para determinar la ejecucion 
+    */
+    private boolean running = true;
+
+     /**
+    * Inicializa los atributos de la clase HiloAnadirPulgaMutante
+    * @param cielo
+    */
+    public HiloAnadirVeneno(Cielo cielo) {
+        this.cielo = cielo;
+    }
+    
+    /**
+    * Sobrescribe el metodo run() de la interfaz Runnable
+    */
+    @Override
+    public void run() {
+        while (running) {
+            this.cielo.addVeneno();
+            try {
+                Thread.sleep(999); 
+            } catch (InterruptedException e) {
+                
+            }
+        }
+    }
+    
+}
+

@@ -4,19 +4,82 @@
  */
 package autonoma.lluviahamburguesas.gui;
 
+import autonoma.lluviahamburguesas.elements.Cielo;
+import autonoma.lluviahamburguesasBase.elements.GraphicContainer;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author maria
  */
-public class GameWindow extends javax.swing.JFrame {
-
+public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
+    //Atributos
     /**
-     * Creates new form GameWindow
-     */
-    public GameWindow() {
+    * Instancia de Cielo
+    */
+    private Cielo cielo;
+    /**
+    * bandera para verificar si el juego se acabo o no
+    */
+    private boolean terminado = false;
+    
+    /**
+     * Inicializa los atributos de la clase GameWindow
+     * @param cielo
+    */    
+    public GameWindow(Cielo cielo){
+        this.cielo = cielo;
         initComponents();
     }
+    
+    /**
+     * Metodo para cerrar la GameWindow
+    */
+    private void exitGame(){
+        System.exit(0);
+    }
+    
+    /**
+     * Modifica la instancia de cielo
+     * @param cielo
+    */
+    public void setCielo(Cielo cielo) {
+        this.cielo = cielo;
+    }
+    
+    /**
+     * Reinicia el juego en caso de que el usuario lo desee
+    */
+    public void reiniciar () throws IOException{
+        this.terminado = false;
+        String opcion;
+        do{
+            JOptionPane.showMessageDialog(null, "Ganaste!! Tu puntaje fue: " + this.cielo.getPuntaje());
+            opcion = JOptionPane.showInputDialog(null, "Deseas reiniciar el juego? 1) si 2) no ");
+        } while (!"1".equals(opcion) && !"2".equals(opcion));
+        
+        
+        if ("1".equals(opcion)){
+            this.cielo.reiniciarJuego();
+        } else if ("2".equals(opcion)){
+            this.dispose();
+        }
+    }
 
+    /**
+     * Metodo que dibuja sobre la GameWindow
+     * @param g
+    */
+    @Override
+    public void paint(Graphics g) {
+       super.paint(g); 
+       cielo.drawImage(g);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,6 +90,16 @@ public class GameWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -42,41 +115,55 @@ public class GameWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        switch(evt.getKeyCode()){   
+            
+            case KeyEvent.VK_Q:
+                exitGame();
+            break;
         }
-        //</editor-fold>
+        repaint();                            
+    }//GEN-LAST:event_formKeyPressed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GameWindow().setVisible(true);
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        if (evt.getButton() == MouseEvent.BUTTON1) {  
+            int x = evt.getX();
+            int y = evt.getY();
+//            try{
+////                this.cielo.asesinarPulgasPulguipium(evt.getX(), evt.getY());;
+//            }catch (IOException ev){
+//                System.out.println("Error obteniendo informacion del archivo");
+//            }
+        }
+       
+        if (!terminado && cielo.getSprites().isEmpty()) {
+            terminado = true;
+            try {
+                reiniciar();
+            } catch (IOException ex) {
+                System.out.println("Error reiniciando el juego");
             }
-        });
+        }
+        refresh();
+    }//GEN-LAST:event_formMouseClicked
+
+    /**
+     * Metodo que actualiza los objetos sobre la GameWindow
+    */
+    @Override
+    public void refresh() {
+        this.repaint();
     }
 
+    /**
+     * Retorna las medidas del GameWindow
+     * @return Rectangle
+    */
+    @Override
+    public Rectangle getBoundaries() {
+        return this.getBounds();
+    }
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

@@ -30,8 +30,8 @@ public class SpriteContainer extends Sprite implements GraphicContainer{
      * @param width 
      */
 
-    public SpriteContainer(int x, int y, int height, int width) {
-        super(x, y, height, width);
+    public SpriteContainer(String path, int x, int y, int height, int width) {
+        super(path, x, y, height, width);
         
         sprites = new ArrayList<Sprite>();
     }   
