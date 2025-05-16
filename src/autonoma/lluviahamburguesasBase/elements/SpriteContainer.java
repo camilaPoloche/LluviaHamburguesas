@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @since 20250516
  * @version 1.0
 */
-public class SpriteContainer extends GraphicContainer{
+public class SpriteContainer extends Sprite implements GraphicContainer{
     //Atributos
     /**
      * arreglo que contiene todos los sprites dentro del contenedor
