@@ -4,10 +4,14 @@
  */
 package autonoma.lluviahamburguesasBase.elements;
 
+import java.awt.Rectangle;
 /**
- *
- * @author maria
- */
-public class GraphicContainer {
-    
+ * Modelo que permite representar un GraphicContainer
+ * @author Camila
+ * @since 20250516
+ * @version 1.0
+*/
+public interface GraphicContainer {
+    public void refresh();
+    public Rectangle getBoundaries();
 }
