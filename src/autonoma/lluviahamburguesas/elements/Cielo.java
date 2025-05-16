@@ -50,6 +50,7 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
     private int puntaje;
     
     private BufferedImage image;
+    private BufferedImage buffer;
 
 
     /**
@@ -80,6 +81,7 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
         veneno.setGraphicContainer(this);
 
         this.puntaje = 0;
+        buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
     }
     
@@ -191,19 +193,30 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
      */
     @Override
     public void paint(Graphics g) {
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
-        g.setColor(Color.BLACK);
-        Font fuente = new Font("Century Gothic", Font.PLAIN, 20);
-        g.setFont(fuente);
-        g.drawString("Puntaje: ", 10, 55);
-        g.drawString(this.puntaje + "", 100, 55);
+        Graphics gBuffer = buffer.getGraphics();
+
+        if (image != null) {
+            g.drawImage(image, x, y, width, height, null);
+        } else {
+            
+            g.setColor(color != null ? color : Color.BLACK);
+            g.fillRect(x, y, width, height);
+        }
+        
+        gBuffer.setColor(Color.WHITE);
+        Font fuente = new Font("Century Gothic", Font.PLAIN, 25);
+        gBuffer.setFont(fuente);
+        gBuffer.drawString("Puntaje: ", 10, 55);
+        gBuffer.drawString(this.puntaje + "", 120, 57);
 
         ArrayList<Sprite> copiaSprites = new ArrayList<>(sprites);
-
         for (Sprite sprite : copiaSprites) {
-            sprite.paint(g);
+            sprite.paint(gBuffer);
         }
+
+        g.drawImage(buffer, x, y, null);
+
+        gBuffer.dispose();
     }
 
     /**
@@ -225,24 +238,6 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
         return new Rectangle(x, y, width, height);
     }
     
-    /**
-     * Dibuja la imagen de la pulga sobre el contexto grafico
-     * @param g contexto gráfico
-     */
-    public void drawImage(Graphics g) {
-        if (image != null) {
-            g.drawImage(image, x, y, width, height, null);
-        } else {
-            
-            g.setColor(color != null ? color : Color.BLACK);
-            g.fillRect(x, y, width, height);
-        }
-        g.setColor(Color.WHITE);
-        Font fuente = new Font("Century Gothic", Font.PLAIN, 20);
-        g.setFont(fuente);
-        g.drawString("Puntaje: ", 10, 55);
-        g.drawString(this.puntaje + "", 100, 55);
-    }
 
     /**
      * Retorna la lista de sprites actuales

@@ -78,7 +78,7 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
     @Override
     public void paint(Graphics g) {
        super.paint(g); 
-       cielo.drawImage(g);
+       cielo.paint(g);
     }
     /**
      * This method is called from within the constructor to initialize the form.
