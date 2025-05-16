@@ -23,7 +23,7 @@ import javax.imageio.ImageIO;
  */
 public class Cielo extends SpriteContainer implements GraphicContainer {
     /**
-     * Instancia de la clase ComidaNormal
+     * Instancia de la clase Comida
      */
     private Comida comida;
     
@@ -49,8 +49,14 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
      */
     private int puntaje;
     
+    private static final int MAX_COMIDAS_EN_PANTALLA = 4;
+    private static final int MAX_VENENOS_EN_PANTALLA = 4;
+    
     private BufferedImage image;
     private BufferedImage buffer;
+    private ArrayList<Sprite> spritesEnPantalla = new ArrayList<>();
+    private ArrayList<Comida> comidasEnPantalla = new ArrayList<>();
+    private ArrayList<Veneno> venenosEnPantalla = new ArrayList<>();
 
 
     /**
@@ -69,7 +75,6 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
             e.printStackTrace();
         }
 
-
         comida = new Comida("/autonoma/lluviahamburguesas/images/Hamburguesa.png",(this.width - Comida.INITIAL_WIDTH),
                 (this.height - Comida.INITIAL_HEIGHT),
                 Comida.INITIAL_WIDTH, Comida.INITIAL_HEIGHT);
@@ -85,70 +90,87 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
 
     }
     
-    /**
-     * Agrega una nueva pulga normal en una posición aleatoria sin colisionar con otras
-     */
-    public void addComida() {
-        int w = 50;
-        int h = 50;
-        int x, y;
+    public synchronized void inicializarSpritesDisponibles() {
+        sprites.clear();
+        for (int i = 0; i < 4; i++) {
+            Comida comida = new Comida("/autonoma/lluviahamburguesas/images/Hamburguesa.png", 
+                (int)(Math.random() * (this.width - 50)), 0, 50, 50);
+            comida.setGraphicContainer(this);
+            sprites.add(comida);
 
-        boolean chocadas;
-        do {
-            x = (int) (Math.random() * (this.width - 50));
-            y = 0;
-            chocadas = false;
+            Veneno veneno = new Veneno("/autonoma/lluviahamburguesas/images/Cigarrillo.png", 
+                (int)(Math.random() * (this.width - 50)), 0, 50, 50);
+            veneno.setGraphicContainer(this);
+            sprites.add(veneno);
+        }
+    }
+    
+    public synchronized void agregarSpritesAleatorios() {
+        while (spritesEnPantalla.size() < 4 && !sprites.isEmpty()) {
+            int indice = (int)(Math.random() * sprites.size());
+            Sprite sprite = sprites.remove(indice);
+            spritesEnPantalla.add(sprite);
+        }
+        refresh(); 
+    }
+    
+    public synchronized void verificarYAgregarNuevosSprites() {
+        ArrayList <Sprite> eliminados = new ArrayList<>();
+        for (Sprite s : spritesEnPantalla) {
+            if (!sprites.contains(s)) {
+                eliminados.add(s);
+            }
+        }
+        
+        spritesEnPantalla.removeAll(eliminados);
 
-            for (Sprite sprite : sprites) {
-                if (sprite instanceof Comida){
-                    int distanciaX = Math.abs(x - comida.getX());
-                    int distanciaY = Math.abs(y - comida.getY());
-
-                    if (distanciaX < w && distanciaY < h) {
-                        chocadas = true;
-                        break;
-                    }
-                }
-            }  
-        } while (chocadas);
-        Comida comida = new Comida("/autonoma/lluviahamburguesas/images/Hamburguesa.png",x, y, w, h);
-        comida.setGraphicContainer(this);
-        sprites.add(comida);
-
-        refresh();
+        if (spritesEnPantalla.size() <= 1) {
+            inicializarSpritesDisponibles();
+            agregarSpritesAleatorios();
+        }
+    }
+    
+    public synchronized void addComida() {
+        if (comidasEnPantalla.size() < MAX_COMIDAS_EN_PANTALLA) {
+            Comida nuevaComida = new Comida("/autonoma/lluviahamburguesas/images/Hamburguesa.png",
+                (int)(Math.random() * (this.width - 50)), 0, 50, 50);
+            nuevaComida.setGraphicContainer(this);
+            comidasEnPantalla.add(nuevaComida);
+            spritesEnPantalla.add(nuevaComida);
+            refresh();
+        }
     }
 
-    /**
-     * Agrega una nueva pulga mutante en una posición aleatoria sin colisionar con otras
-     */
-    public void addVeneno() {
-        int w = 50;
-        int h = 50;
-        int x, y;
-
-        boolean chocadas;
-        do {
-            x = (int) (Math.random() * (this.width - 60));
-            y = 0;
-            chocadas = false;
-            int rango = 20;
-            for (Sprite sprite : sprites) {
-                if (sprite instanceof Veneno){
-                    int distanciaX = Math.abs((x + rango) - veneno.getX());
-                    int distanciaY = Math.abs((y + rango) - veneno.getY());
-
-                    if (distanciaX < w && distanciaY < h) {
-                        chocadas = true;
-                        break;
-                    }
-                }
+    // Este método agrega un veneno si hay menos de 4
+    public synchronized void addVeneno() {
+        if (venenosEnPantalla.size() < MAX_VENENOS_EN_PANTALLA) {
+            Veneno nuevoVeneno = new Veneno("/autonoma/lluviahamburguesas/images/Cigarrillo.png",
+                (int)(Math.random() * (this.width - 50)), 0, 50, 50);
+            nuevoVeneno.setGraphicContainer(this);
+            venenosEnPantalla.add(nuevoVeneno);
+            spritesEnPantalla.add(nuevoVeneno);
+            refresh();
+        }
+    }
+    
+    public synchronized void eliminarSprite(Sprite sprite) {
+        spritesEnPantalla.remove(sprite);
+        if (sprite instanceof Comida) {
+            comidasEnPantalla.remove(sprite);
+        } else if (sprite instanceof Veneno) {
+            venenosEnPantalla.remove(sprite);
+        }
+        refresh();
+    }
+    
+    public synchronized void actualizarSprites() {
+        for (Sprite sprite : spritesEnPantalla) {
+            if (sprite instanceof Comida) {
+                ((Comida) sprite).move();
+            } else if (sprite instanceof Veneno) {
+                ((Veneno) sprite).move();
             }
-        } while (chocadas);
-
-        Veneno veneno = new Veneno("/autonoma/lluviahamburguesas/images/Cigarrillo.png",x, y, w, h);
-        veneno.setGraphicContainer(this);
-        sprites.add(veneno);
-
+        }
         refresh();
     }
 
@@ -274,9 +296,8 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
         this.sprites.clear(); 
         this.acabado = false;
         this.actualizarPuntaje(0);
-        this.addComida(); 
-        this.addVeneno();
-
+        inicializarSpritesDisponibles();
+        agregarSpritesAleatorios();
         this.refresh();
     }
 

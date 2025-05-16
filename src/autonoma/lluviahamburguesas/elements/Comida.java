@@ -44,6 +44,22 @@ public class Comida extends Sprite {
      * Paso que avanza
      */
     protected int step = 5;
+    /**
+     * Velocidad del movimiento en Y
+    */
+    private int velocidadY = 0;
+    /**
+     * Velocidad del movimiento en X
+    */
+    private int velocidadX;
+    /**
+     * Gravedad para efecto de caida
+    */
+    private int gravedad = 1;
+    /**
+     * Indica si esta en movimiento o no
+    */
+    private boolean enMovimiento = false;
 
     /**
      * Constructor que inicializa los atributos de la pulga
@@ -63,40 +79,46 @@ public class Comida extends Sprite {
     }
     
     /**
+     * Inicia el movimiento la bola de PingPong
+    */
+    public void iniciarMovimiento() {
+        if (!enMovimiento) {
+            velocidadY = 2; 
+            velocidadX = (int)(Math.random() * 3 - 1); 
+            enMovimiento = true;
+        }
+    }
+    
+    /**
      * Mueve la pulga en una dirección aleatoria si no sale del contenedor
-     * @return true si se movio exitosamente, false si no pudo moverse
      */
-    public boolean move() {
-        int direction = (int) (Math.random() * 4);
+    public void move() {
+        if (enMovimiento) {
+            velocidadY += gravedad;
+            y += velocidadY;
+            x += velocidadX;
 
-        int nx = x;
-        int ny = y;
+            Rectangle limites = gameContainer.getBoundaries();
 
-        switch (direction) {
-            case 0:
-                ny -= step;
-                break;
-            case 1:
-                ny += step;
-                break;
-            case 2:
-                nx -= step;
-                break;
-            case 3:
-                nx += step;
-                break;
-        }
+            if (y + height >= limites.height) {
+                y = limites.height - height;
+                velocidadY = 0;
+                enMovimiento = false; // se detiene al tocar el fondo
+            }
 
-        if (!isOutOfGraphicContainer(nx, ny, width, height)) {
-            x = nx;
-            y = ny;
+            if (x < 0) {
+                x = 0;
+                velocidadX = -velocidadX;
+            }
 
-            if (gameContainer != null)
+            if (x + width > limites.width) {
+                x = limites.width - width;
+                velocidadX = -velocidadX;
+            }
+            if (gameContainer != null) {
                 gameContainer.refresh();
-
-            return true;
+            }
         }
-        return false;
     }
 
     /**
@@ -124,5 +146,4 @@ public class Comida extends Sprite {
     public void paint(Graphics g) {
         
     }
-    
 }

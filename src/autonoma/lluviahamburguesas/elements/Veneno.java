@@ -17,7 +17,6 @@ import javax.imageio.ImageIO;
  * @author maria
  */
 public class Veneno extends Sprite{
-    
      /**
      * Ancho inicial de la pulga
      */
@@ -42,9 +41,26 @@ public class Veneno extends Sprite{
      * Paso que avanza
      */
     protected int step = 5;
+    
+    /**
+     * Velocidad del movimiento en Y
+    */
+    private int velocidadY = 0;
+    /**
+     * Velocidad del movimiento en X
+    */
+    private int velocidadX;
+    /**
+     * Gravedad para efecto de caida
+    */
+    private int gravedad = 1;
+    /**
+     * Indica si esta en movimiento o no
+    */
+    private boolean enMovimiento = false;
 
     /**
-     * Constructor que inicializa los atributos de la pulga
+     * Constructor que inicializa los atributos de el Veneno
      * @param path ruta de la imagen de la pulga
      * @param x posición en X
      * @param y posición en Y
@@ -61,41 +77,48 @@ public class Veneno extends Sprite{
     }
     
     /**
-     * Mueve la pulga en una dirección aleatoria si no sale del contenedor
-     * @return true si se movio exitosamente, false si no pudo moverse
-     */
-    public boolean move() {
-        int direction = (int) (Math.random() * 4);
-
-        int nx = x;
-        int ny = y;
-
-        switch (direction) {
-            case 0:
-                ny -= step;
-                break;
-            case 1:
-                ny += step;
-                break;
-            case 2:
-                nx -= step;
-                break;
-            case 3:
-                nx += step;
-                break;
+     * Inicia el movimiento de el veneno
+    */
+    public void iniciarMovimiento() {
+        if (!enMovimiento) {
+            velocidadY = 2; 
+            velocidadX = (int)(Math.random() * 3 - 1); 
+            enMovimiento = true;
         }
-
-        if (!isOutOfGraphicContainer(nx, ny, width, height)) {
-            x = nx;
-            y = ny;
-
-            if (gameContainer != null)
-                gameContainer.refresh();
-
-            return true;
-        }
-        return false;
     }
+    
+    /**
+     * Mueve la pulga en una dirección aleatoria si no sale del contenedor
+     */
+    public void move() {
+        if (enMovimiento) {
+            velocidadY += gravedad;
+            y += velocidadY;
+            x += velocidadX;
+
+            Rectangle limites = gameContainer.getBoundaries();
+
+            if (y + height >= limites.height) {
+                y = limites.height - height;
+                velocidadY = 0;
+                enMovimiento = false; // se detiene al tocar el fondo
+            }
+
+            if (x < 0) {
+                x = 0;
+                velocidadX = -velocidadX;
+            }
+
+            if (x + width > limites.width) {
+                x = limites.width - width;
+                velocidadX = -velocidadX;
+            }
+            if (gameContainer != null) {
+                gameContainer.refresh();
+            }
+        }
+    }
+
 
     /**
      * Dibuja la imagen de la pulga sobre el contexto grafico

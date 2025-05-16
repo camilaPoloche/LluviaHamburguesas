@@ -9,7 +9,6 @@ package autonoma.lluviahamburguesas.elements;
  * @author maria
  */
 public class HiloAnadirVeneno implements Runnable{
-    
     /**
      * instancia de la clase Cielo
     */
