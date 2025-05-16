@@ -4,10 +4,21 @@
  */
 package autonoma.lluviahamburguesas.elements;
 
+import java.io.IOException;
+
 /**
- *
- * @author maria
- */
-public class Escritor {
+ * Modelo que permite representar un Escritor como interface
+ * @author Alejandro
+ * @since 20250516
+ * @version 1.0
+*/
+public interface Escritor {
+    /**
+     * Escribe el archivo de memoria interna por lineas
+     * 
+     * @param archivo
+     * @throws java.io.IOException si el archivo no existe
+    */
+    public abstract void escribir(String archivo) throws IOException ;
     
 }
