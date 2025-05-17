@@ -51,7 +51,7 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
 
     private int cantidadComida = 0;
     private int cantidadVeneno = 0;
-    
+    ArrayList<Sprite> copiaSprites = new ArrayList<>(sprites);
     private BufferedImage image;
 
 
@@ -158,7 +158,7 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
      * @throws IOException
      */
     public void atraparSprite(int x, int y) throws IOException {
-        int rango = 33;  
+        int rango = 40;  
 
         for (int i = 0; i < this.sprites.size(); i++) {
             Sprite p = sprites.get(i);
@@ -170,14 +170,16 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
             if (Math.abs(spriteX - x) < rango && Math.abs(spriteY - y) < rango) {
                 if (p instanceof Comida){
                     int puntajeNuevo = puntajeActual += 1;
+                    this.cantidadComida --;
                     this.setPuntaje(puntajeNuevo);
                 }
                 else if (p instanceof Veneno){
                     int puntajeNuevo = puntajeActual -= 2;
                     this.setPuntaje (puntajeNuevo);
+                    this.cantidadVeneno --;
                 }
                 
-                this.remove(i);
+                this.sprites.remove(i);
                 break;  
             }
         }
@@ -214,9 +216,9 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
     @Override
     public void paint(Graphics g) {
         if (image != null) {
-            g.drawImage(image, x, y, width, height, null);
-        } else {
-            
+            g.drawImage(image, 0, 0, width, height, null);
+        } 
+        else {
             g.setColor(color != null ? color : Color.BLACK);
             g.fillRect(x, y, width, height);
         }
@@ -227,7 +229,6 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
         g.drawString("Puntaje: ", 10, 55);
         g.drawString(this.puntaje + "", 120, 57);
 
-        ArrayList<Sprite> copiaSprites = new ArrayList<>(sprites);
         for (Sprite sprite : copiaSprites) {
             sprite.paint(g);
         }
@@ -286,6 +287,7 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
     public void reiniciarJuego() throws IOException {
         this.puntaje = 0;
         this.sprites.clear(); 
+        this.copiaSprites.clear();
         this.acabado = false;
         this.actualizarPuntaje(0);
         this.agregarSprites(4, 4);

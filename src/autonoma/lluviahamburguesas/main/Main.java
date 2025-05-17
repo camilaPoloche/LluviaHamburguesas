@@ -17,7 +17,7 @@ import autonoma.lluviahamburguesas.gui.GameWindow;
 public class Main {
     public static void main(String[] args){
         // Se crea una instancia deL cielo
-        Cielo cielo = new Cielo("/autonoma/lluviahamburguesas/images/Cielo.png", 2, 2, 480, 480);
+        Cielo cielo = new Cielo("/autonoma/lluviahamburguesas/images/Cielo.png", 0, 0, 480, 480);
         
         // Se crean los hilos que agregan y mueven las pulgas
         Thread hilo1 = new Thread(new HiloAnadirComida(cielo));

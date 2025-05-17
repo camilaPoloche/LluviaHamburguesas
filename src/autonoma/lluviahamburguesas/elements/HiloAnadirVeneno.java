@@ -33,11 +33,12 @@ public class HiloAnadirVeneno implements Runnable{
     @Override
     public void run() {
         while (running) {
-            this.cielo.addVeneno();
+            this.cielo.agregarSprites(0, 1);
+
             try {
-                Thread.sleep(999); 
+                Thread.sleep(2000); 
             } catch (InterruptedException e) {
-                
+                Thread.currentThread().interrupt();
             }
         }
     }

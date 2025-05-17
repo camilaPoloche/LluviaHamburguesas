@@ -6,6 +6,8 @@ package autonoma.lluviahamburguesas.gui;
 
 import autonoma.lluviahamburguesas.elements.Cielo;
 import autonoma.lluviahamburguesasBase.elements.GraphicContainer;
+import autonoma.lluviahamburguesasBase.elements.Sprite;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -32,8 +34,8 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
     private BufferedImage imagenBuffer;
     private Graphics gImagenBuffer;
     
-    public static final int _WIDTH = 850;
-    public static final int _HEIGHT = 550;
+    public static final int _WIDTH = 480;
+    public static final int _HEIGHT = 480;
     
     /**
      * Inicializa los atributos de la clase GameWindow
@@ -42,7 +44,6 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
     public GameWindow(Cielo cielo){
         this.cielo = cielo;
         initComponents();
-         // Crear la imagen y cargarla en memoria
         this.imagenBuffer = new BufferedImage(_WIDTH,_HEIGHT,
                                 BufferedImage.TYPE_INT_RGB);
         
@@ -89,15 +90,27 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
         g.drawImage(imagenBuffer, 0, 0, this);
     }
     
-    /**
-     * Metodo que dibuja sobre la GameWindow
-     * @param g
-    */
     @Override
     public void paint(Graphics g) {
-       update(g);
-       this.refresh();
+        super.paint(g);  // Limpia el fondo automáticamente
+
+        // Pintar el cielo de fondo (o la imagen de fondo)
+        if (cielo != null) {
+            cielo.paint(g);
+        }
+
+        // Pintar los sprites que estén en el contenedor
+        if (cielo != null) {
+            for (Sprite sprite : cielo.getSprites()) {
+                sprite.paint(g);
+            }
+        }
+
+        // Aquí puedes pintar texto, puntaje, etc.
+        g.setColor(Color.WHITE);
+//        g.drawString("Puntaje: ", this.cielo.getPuntaje(), 10, 20);
     }
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -147,14 +160,14 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
         if (evt.getButton() == MouseEvent.BUTTON1) {  
             int x = evt.getX();
             int y = evt.getY();
-//            try{
-////                this.cielo.asesinarPulgasPulguipium(evt.getX(), evt.getY());;
-//            }catch (IOException ev){
-//                System.out.println("Error obteniendo informacion del archivo");
-//            }
+            try{
+                this.cielo.atraparSprite(x, y);
+            }catch (IOException ev){
+                System.out.println("Error obteniendo informacion del archivo");
+            }
         }
-       
-        if (!terminado && cielo.getSprites().isEmpty()) {
+        
+        if (!terminado && this.cielo.getCantidadComida() == 0) {
             terminado = true;
             try {
                 reiniciar();

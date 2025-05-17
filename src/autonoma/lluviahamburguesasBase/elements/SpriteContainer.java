@@ -61,14 +61,6 @@ public class SpriteContainer extends Sprite implements GraphicContainer{
     public void remove(Sprite sprite){
         sprites.remove(sprite);
     }
-    
-    /**
-     * metodo que devuelve la cantidad de sprites 
-     * @return 
-     */
-    public int size(){
-        return sprites.size();
-    }
 
     /**
      * metodo requerido por la interfaz

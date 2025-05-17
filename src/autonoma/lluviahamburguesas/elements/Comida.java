@@ -59,6 +59,8 @@ public class Comida extends Sprite {
      * Indica si esta en movimiento o no
     */
     private boolean enMovimiento = false;
+    
+    private Graphics g_imagenBuffer;
 
     /**
      * Constructor que inicializa los atributos de la pulga
@@ -75,6 +77,7 @@ public class Comida extends Sprite {
         }catch (IOException e) {
             e.printStackTrace();
         }
+        g_imagenBuffer = image.getGraphics();
     }
     
     /**
@@ -114,7 +117,8 @@ public class Comida extends Sprite {
                 x = limites.width - width;
                 velocidadX = -velocidadX;
             }
-            if (gameContainer != null) {
+            
+            if (gameContainer != null){
                 gameContainer.refresh();
             }
         }
@@ -136,5 +140,10 @@ public class Comida extends Sprite {
             g.setColor(color != null ? color : Color.BLACK);
             g.fillRect(x, y, width, height);
         }
+    }
+    
+    @Override
+    public void update(Graphics g) {
+       g.drawImage(image, 0, 0, this);
     }
 }

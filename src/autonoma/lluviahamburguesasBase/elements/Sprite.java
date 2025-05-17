@@ -4,6 +4,7 @@
  */
 package autonoma.lluviahamburguesasBase.elements;
 
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -17,7 +18,7 @@ import javax.imageio.ImageIO;
  * @version 1.0
 */
 
-public abstract class Sprite {
+public abstract class Sprite extends Canvas {
     //Atributos
     /**
     * posicion en x

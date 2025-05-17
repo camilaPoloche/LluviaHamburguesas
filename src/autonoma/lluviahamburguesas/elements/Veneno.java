@@ -58,6 +58,8 @@ public class Veneno extends Sprite{
      * Indica si esta en movimiento o no
     */
     private boolean enMovimiento = false;
+    
+    private Graphics g_imagenBuffer;
 
     /**
      * Constructor que inicializa los atributos de el Veneno
@@ -74,6 +76,7 @@ public class Veneno extends Sprite{
         }catch (IOException e) {
             e.printStackTrace();
         }
+        g_imagenBuffer = image.getGraphics();
     }
     
     /**
@@ -100,8 +103,8 @@ public class Veneno extends Sprite{
 
             if (y + height >= limites.height) {
                 y = limites.height - height;
-                velocidadY = 0;
-                enMovimiento = false; // se detiene al tocar el fondo
+                velocidadY = -velocidadY;
+                enMovimiento = false; 
             }
 
             if (x < 0) {
@@ -113,6 +116,7 @@ public class Veneno extends Sprite{
                 x = limites.width - width;
                 velocidadX = -velocidadX;
             }
+            
             if (gameContainer != null) {
                 gameContainer.refresh();
             }
@@ -135,5 +139,10 @@ public class Veneno extends Sprite{
             g.setColor(color != null ? color : Color.BLACK);
             g.fillRect(x, y, width, height);
         }
+    }
+    
+    @Override
+    public void update(Graphics g) {
+       g.drawImage(image, 0, 0, this);
     }
 }

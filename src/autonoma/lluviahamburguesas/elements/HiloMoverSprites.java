@@ -44,7 +44,7 @@ public class HiloMoverSprites implements Runnable{
                 }
             }
             try {
-                Thread.sleep(30); // actualiza cada 30ms (33fps aprox.)
+                Thread.sleep(500); 
             } catch (InterruptedException e) {
                 
             }
