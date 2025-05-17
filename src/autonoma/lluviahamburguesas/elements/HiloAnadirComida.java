@@ -36,7 +36,7 @@ public class HiloAnadirComida implements Runnable {
             this.cielo.agregarSprites(1, 0);
 
             try {
-                Thread.sleep(1000); // Espera 1 segundo antes de revisar de nuevo
+                Thread.sleep(1500); // Espera 1 segundo antes de revisar de nuevo
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }

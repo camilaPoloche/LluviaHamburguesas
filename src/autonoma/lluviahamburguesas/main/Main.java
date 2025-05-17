@@ -36,6 +36,7 @@ public class Main {
         hilo1.start();
         hilo2.start();
         hilo3.start();
+
     }
 }
 
