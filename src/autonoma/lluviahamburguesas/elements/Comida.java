@@ -18,9 +18,8 @@ import static javax.swing.Spring.width;
  *
  * @author Camila
  */
-public class Comida extends Sprite {
-    
-    /**
+public class Comida extends Sprite { 
+        /**
      * Ancho inicial de la pulga
      */
     public static final int INITIAL_WIDTH = 50;

@@ -36,14 +36,17 @@ public class HiloMoverSprites implements Runnable{
     public void run() {
          while (running) {
             for (Sprite sprite : this.cielo.getCopiaSprites()) {
-                sprite.move(); // mueve cada sprite
+                if (sprite instanceof Comida) {
+                    ((Comida) sprite).move();
+                }
+                else if (sprite instanceof Veneno) {
+                    ((Veneno) sprite).move();
+                }
             }
-            
-            cielo.actualizarSprites(); // mueve los objetos
             try {
                 Thread.sleep(30); // actualiza cada 30ms (33fps aprox.)
             } catch (InterruptedException e) {
-                // opcional: manejar interrupciones
+                
             }
         }
     }

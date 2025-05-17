@@ -33,11 +33,19 @@ public class HiloAnadirComida implements Runnable {
     @Override
     public void run() {
         while (running) {
-            this.cielo.addComida();
+            int comidasEnPantalla = this.cielo.getCantidadComida();
+            int venenosEnPantalla = cielo.getCantidadVeneno();
+
+            if (comidasEnPantalla < 4 || venenosEnPantalla < 4) {
+                int comidasFaltantes = 4 - comidasEnPantalla;
+                int venenosFaltantes = 4 - venenosEnPantalla;
+                cielo.agregarSprites(comidasFaltantes, venenosFaltantes);
+            }
+
             try {
-                Thread.sleep(1000); 
+                Thread.sleep(1000); // Espera 1 segundo antes de revisar de nuevo
             } catch (InterruptedException e) {
-                
+                Thread.currentThread().interrupt();
             }
         }
     }

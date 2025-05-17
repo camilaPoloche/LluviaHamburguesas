@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
  * @author maria
  */
 public class Veneno extends Sprite{
-     /**
+      /**
      * Ancho inicial de la pulga
      */
     public static final int INITIAL_WIDTH = 50;

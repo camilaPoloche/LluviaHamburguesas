@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 
@@ -27,6 +28,12 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
     * bandera para verificar si el juego se acabo o no
     */
     private boolean terminado = false;
+    // Double Buffer
+    private BufferedImage imagenBuffer;
+    private Graphics gImagenBuffer;
+    
+    public static final int _WIDTH = 850;
+    public static final int _HEIGHT = 550;
     
     /**
      * Inicializa los atributos de la clase GameWindow
@@ -35,6 +42,11 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
     public GameWindow(Cielo cielo){
         this.cielo = cielo;
         initComponents();
+         // Crear la imagen y cargarla en memoria
+        this.imagenBuffer = new BufferedImage(_WIDTH,_HEIGHT,
+                                BufferedImage.TYPE_INT_RGB);
+        
+        this.gImagenBuffer = this.imagenBuffer.getGraphics();
     }
     
     /**
@@ -71,14 +83,20 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
         }
     }
 
+    @Override
+    public void update(Graphics g){
+        cielo.paint(gImagenBuffer);
+        g.drawImage(imagenBuffer, 0, 0, this);
+    }
+    
     /**
      * Metodo que dibuja sobre la GameWindow
      * @param g
     */
     @Override
     public void paint(Graphics g) {
-       super.paint(g); 
-       cielo.paint(g);
+       update(g);
+       this.refresh();
     }
     /**
      * This method is called from within the constructor to initialize the form.
