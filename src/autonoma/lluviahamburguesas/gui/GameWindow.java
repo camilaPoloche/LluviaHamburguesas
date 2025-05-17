@@ -68,20 +68,11 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
     /**
      * Reinicia el juego en caso de que el usuario lo desee
     */
-    public void reiniciar () throws IOException{
+    public void ganar (){
         this.terminado = false;
-        String opcion;
-        do{
-            JOptionPane.showMessageDialog(null, "Ganaste!! Tu puntaje fue: " + this.cielo.getPuntaje());
-            opcion = JOptionPane.showInputDialog(null, "Deseas reiniciar el juego? 1) si 2) no ");
-        } while (!"1".equals(opcion) && !"2".equals(opcion));
         
-        
-        if ("1".equals(opcion)){
-            this.cielo.reiniciarJuego();
-        } else if ("2".equals(opcion)){
-            this.dispose();
-        }
+        JOptionPane.showMessageDialog(null, "Ganaste!! Tu puntaje fue: " + this.cielo.getPuntaje());
+       
     }
 
     @Override
@@ -169,11 +160,20 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
         
         if (!terminado && this.cielo.getCantidadComida() == 0) {
             terminado = true;
-            try {
-                reiniciar();
-            } catch (IOException ex) {
-                System.out.println("Error reiniciando el juego");
-            }
+//            try {
+//                reiniciar();
+//            } catch (IOException ex) {
+//                System.out.println("Error reiniciando el juego");
+//            }
+            this.ganar();
+            this.dispose();
+        }
+        if   (!terminado && this.cielo.getPuntaje() < 0){
+            this.terminado = false;
+        
+            JOptionPane.showMessageDialog(null, "Perdiste!! Tu puntaje fue menor a 0: " + this.cielo.getPuntaje());
+            this.dispose();
+            
         }
         refresh();
     }//GEN-LAST:event_formMouseClicked

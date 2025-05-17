@@ -281,20 +281,6 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
     }
     
     /**
-     * Reinicia el puntaje y el arreglo de sprites
-     * @throws IOException
-     */
-    public void reiniciarJuego() throws IOException {
-        this.puntaje = 0;
-        this.sprites.clear(); 
-        this.copiaSprites.clear();
-        this.acabado = false;
-        this.actualizarPuntaje(0);
-        this.agregarSprites(4, 4);
-        this.refresh();
-    }
-
-    /**
      * Devuelve una copia de los sprites 
      * @return copia de la lista de sprites
     */
