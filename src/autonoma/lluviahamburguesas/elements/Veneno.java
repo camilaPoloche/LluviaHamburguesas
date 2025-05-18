@@ -13,50 +13,65 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- *
- * @author maria
+ * Clase que representa un sprite de tipo veneno en el juego.
+ * Contiene atributos para posicion, movimiento y gestion grafica.
+ * @author Alejandro
+ * @since 20250518
+ * @version 1.0
  */
-public class Veneno extends Sprite{
+public class Veneno extends Sprite {
+
     /**
-     * Ancho inicial de la pulga
+     * Ancho inicial del veneno
      */
     public static final int INITIAL_WIDTH = 50;
+
     /**
-     * Alto inicial de la pulga
+     * Alto inicial del veneno
      */
     public static final int INITIAL_HEIGHT = 50;
+
     /**
-     * Imagen asociada a la pulga
+     * Imagen asociada al sprite veneno
      */
     private BufferedImage image;
+
     /**
-     * Paso que avanza
+     * Paso que avanza en cada movimiento
      */
     protected int step = 5;
+
     /**
-     * Velocidad del movimiento en Y
-    */
+     * Velocidad vertical (Y) del movimiento
+     */
     private int velocidadY = 0;
+
     /**
-     * Velocidad del movimiento en X
-    */
+     * Velocidad horizontal (X) del movimiento
+     */
     private int velocidadX;
+
     /**
-     * Gravedad para efecto de caida
-    */
+     * Gravedad que afecta el movimiento vertical para simular caida
+     */
     private int gravedad = 1;
+
     /**
-     * Indica si esta en movimiento o no
-    */
+     * Indica si el veneno esta en movimiento o no
+     */
     private boolean enMovimiento = false;
-    
+
+    /**
+     * Contexto grafico para manipular la imagen (buffer)
+     */
     private Graphics g_imagenBuffer;
 
     /**
-     * Constructor que inicializa los atributos de el Veneno
-     * @param path ruta de la imagen de la pulga
-     * @param x posición en X
-     * @param y posición en Y
+     * Constructor que inicializa los atributos de Veneno.
+     * Carga la imagen desde la ruta especificada y define posicion y tamaño.
+     * @param path ruta de la imagen del veneno
+     * @param x posicion en X
+     * @param y posicion en Y
      * @param height alto del sprite
      * @param width ancho del sprite
      */
@@ -64,25 +79,26 @@ public class Veneno extends Sprite{
         super(path, x, y, height, width);
         try {
             this.image = ImageIO.read(getClass().getResource(path));
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         g_imagenBuffer = image.getGraphics();
     }
-    
+
     /**
-     * Inicia el movimiento de el veneno
-    */
+     * Inicia el movimiento del veneno estableciendo velocidades iniciales.
+     */
     public void iniciarMovimiento() {
         if (!enMovimiento) {
-            velocidadY = 2; 
-            velocidadX = (int)(Math.random() * 3 - 1); 
+            velocidadY = 2; // velocidad inicial hacia abajo
+            velocidadX = (int) (Math.random() * 3 - 1); // velocidad horizontal aleatoria entre -1 y 1
             enMovimiento = true;
         }
     }
-    
+
     /**
-     * Mueve la pulga en una dirección aleatoria si no sale del contenedor
+     * Actualiza la posicion del veneno segun sus velocidades y aplica
+     * gravedad y rebotes en los limites del contenedor grafico.
      */
     public void move() {
         if (enMovimiento) {
@@ -92,22 +108,26 @@ public class Veneno extends Sprite{
 
             Rectangle limites = gameContainer.getBoundaries();
 
+            // Rebote en limite inferior
             if (y + height >= limites.height) {
                 y = limites.height - height;
                 velocidadY = -velocidadY;
-                enMovimiento = false; 
+                enMovimiento = false; // detiene movimiento al tocar suelo
             }
 
+            // Rebote en limite izquierdo
             if (x < 0) {
                 x = 0;
                 velocidadX = -velocidadX;
             }
 
+            // Rebote en limite derecho
             if (x + width > limites.width) {
                 x = limites.width - width;
                 velocidadX = -velocidadX;
             }
-            
+
+            // Refresca el contenedor grafico para actualizar la imagen
             if (gameContainer != null) {
                 gameContainer.refresh();
             }
@@ -115,13 +135,19 @@ public class Veneno extends Sprite{
     }
 
     /**
-     * Devuelve los limites de la imagen como un rectangulo
-     * @return objeto Rectangle con los límites de la imagen
+     * Devuelve los limites del sprite como un objeto Rectangle.
+     * Util para deteccion de colisiones y limites.
+     * @return rectangulo que representa los limites del sprite
      */
     public Rectangle getBounds() {
         return new Rectangle(x, y, image.getWidth(null), image.getHeight(null));
-    }   
+    }
 
+    /**
+     * Metodo para pintar el sprite en pantalla.
+     * Dibuja la imagen si esta disponible o un rectangulo de color.
+     * @param g contexto grafico para dibujar
+     */
     @Override
     public void paint(Graphics g) {
         if (image != null) {
@@ -131,9 +157,13 @@ public class Veneno extends Sprite{
             g.fillRect(x, y, width, height);
         }
     }
-    
+
+    /**
+     * Metodo update que actualiza la imagen del sprite.
+     * @param g contexto grafico para actualizar
+     */
     @Override
     public void update(Graphics g) {
-       g.drawImage(image, 0, 0, this);
+        g.drawImage(image, 0, 0, this);
     }
 }
