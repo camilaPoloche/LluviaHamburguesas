@@ -7,7 +7,6 @@ package autonoma.lluviahamburguesasBase.elements;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-
 /**
  * Modelo que representa un SpriteContainer
  * @author Mariana
@@ -18,7 +17,7 @@ public class SpriteContainer extends Sprite implements GraphicContainer{
     //Atributos
     /**
      * arreglo que contiene todos los sprites dentro del contenedor
-     */
+    */
     protected ArrayList<Sprite> sprites;   
 
     /**
@@ -29,7 +28,6 @@ public class SpriteContainer extends Sprite implements GraphicContainer{
      * @param height 
      * @param width 
      */
-
     public SpriteContainer(String path, int x, int y, int height, int width) {
         super(path, x, y, height, width);
         

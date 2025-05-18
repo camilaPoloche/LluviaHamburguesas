@@ -17,7 +17,6 @@ import javax.imageio.ImageIO;
  * @since 20250516
  * @version 1.0
 */
-
 public abstract class Sprite extends Canvas {
     //Atributos
     /**
@@ -44,11 +43,9 @@ public abstract class Sprite extends Canvas {
     * Contenedor del Sprite
     */
     protected GraphicContainer gameContainer;
-    
     /**
     * Imagen
     */
-  
     private BufferedImage image;
 
     /**
@@ -58,9 +55,7 @@ public abstract class Sprite extends Canvas {
      * @param height
      * @param width
     */
-    
     public Sprite(String path, int x, int y, int height, int width) {
-        
         try {
             this.image = ImageIO.read(getClass().getResource(path));
         } catch (IOException e) {

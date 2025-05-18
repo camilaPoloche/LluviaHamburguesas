@@ -17,8 +17,7 @@ public interface Escritor {
      * Escribe el archivo de memoria interna por lineas
      * 
      * @param archivo
-     * @throws java.io.IOException si el archivo no existe
+     * @throws IOException 
     */
     public abstract void escribir(String archivo) throws IOException ;
-    
 }

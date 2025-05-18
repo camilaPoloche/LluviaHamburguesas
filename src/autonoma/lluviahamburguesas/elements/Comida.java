@@ -11,37 +11,28 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import static javax.swing.Spring.height;
-import static javax.swing.Spring.width;
-
 /**
- *
- * @author Camila
- */
+ * Modelo que permite representar la Comida
+ * @author Mariana
+ * @since 20250517
+ * @version 1.0
+*/
 public class Comida extends Sprite { 
-        /**
-     * Ancho inicial de la pulga
-     */
+    /**
+     * Ancho inicial de la comida
+    */
     public static final int INITIAL_WIDTH = 50;
-
     /**
-     * Alto inicial de la pulga
-     */
+     * Alto inicial de la comida
+    */
     public static final int INITIAL_HEIGHT = 50;
-
     /**
-     * Tamaño que crece la pulga en ciertos eventos
-     */
-    public static final int GROW_SIZE = 4;
-
-    /**
-     * Imagen asociada a la pulga
-     */
+     * Imagen asociada a la comida
+    */
     private BufferedImage image;
-
     /**
      * Paso que avanza
-     */
+    */
     protected int step = 5;
     /**
      * Velocidad del movimiento en Y
@@ -59,16 +50,18 @@ public class Comida extends Sprite {
      * Indica si esta en movimiento o no
     */
     private boolean enMovimiento = false;
-    
+    /**
+     * Doble buffer
+    */
     private Graphics g_imagenBuffer;
 
     /**
-     * Constructor que inicializa los atributos de la pulga
-     * @param path ruta de la imagen de la pulga
-     * @param x posición en X
-     * @param y posición en Y
-     * @param height alto del sprite
-     * @param width ancho del sprite
+     * Constructor que inicializa los atributos de la Comida
+     * @param path 
+     * @param x
+     * @param y 
+     * @param height 
+     * @param width 
      */
     public Comida(String path, int x, int y, int height, int width) {
         super(path, x, y, height, width);
@@ -81,7 +74,7 @@ public class Comida extends Sprite {
     }
     
     /**
-     * Inicia el movimiento la bola de PingPong
+     * Inicia el movimiento de la comida
     */
     public void iniciarMovimiento() {
         if (!enMovimiento) {
@@ -92,7 +85,7 @@ public class Comida extends Sprite {
     }
     
     /**
-     * Mueve la pulga en una dirección aleatoria si no sale del contenedor
+     * Movimiento de la comida hacia abajo - cayendo
      */
     public void move() {
         if (enMovimiento) {
@@ -125,13 +118,16 @@ public class Comida extends Sprite {
     }
 
     /**
-     * Devuelve los limites de la imagen como un rectangulo
-     * @return objeto Rectangle con los límites de la imagen
-     */
+     * Devuelve los limites de la imagen 
+     * @return Rectangle
+    */
     public Rectangle getBounds() {
         return new Rectangle(x, y, image.getWidth(null), image.getHeight(null));
     }   
 
+    /**
+     * Dibuja o pinta la Comida en pantalla
+    */
     @Override
     public void paint(Graphics g) {
         if (image != null) {
@@ -142,6 +138,9 @@ public class Comida extends Sprite {
         }
     }
     
+    /**
+     * Actualiza la posicion de la Comida con cada movimiento
+    */
     @Override
     public void update(Graphics g) {
        g.drawImage(image, 0, 0, this);
