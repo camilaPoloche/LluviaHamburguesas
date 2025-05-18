@@ -11,12 +11,15 @@ import autonoma.lluviahamburguesas.elements.HiloMoverSprites;
 import autonoma.lluviahamburguesas.gui.GameWindow;
 
 /**
- *
- * @author maria
+ * Clase principal inicializa los elementos principales del juego 
+ * 
+ * @author Mariana
+ * @since 20250516
+ * @version 1.0
  */
 public class Main {
     public static void main(String[] args){
-        // Se crea una instancia deL cielo
+        // Se crea una instancia del cielo
         Cielo cielo = new Cielo("/autonoma/lluviahamburguesas/images/Cielo.png", 0, 0, 480, 480);
         
         // Se crean los hilos que agregan y mueven las pulgas

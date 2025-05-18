@@ -17,9 +17,11 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author maria
- */
+ * Modelo que permite representar la VentanaPrincipal 
+ * @author Mariana
+ * @since 20250518
+ * @version 1.0
+*/
 public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
     //Atributos
     /**
@@ -32,9 +34,17 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
     private boolean terminado = false;
     // Double Buffer
     private BufferedImage imagenBuffer;
+    /**
+    * objeto de graphics que se usarsa como buffer
+    */
     private Graphics gImagenBuffer;
-    
+    /**
+    *  Constante que define el ancho de la ventana principal
+    */
     public static final int _WIDTH = 480;
+    /**
+    *  Constante que define el alto de la ventana principal
+    */
     public static final int _HEIGHT = 480;
     
     /**
@@ -66,7 +76,7 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
     }
     
     /**
-     * Reinicia el juego en caso de que el usuario lo desee
+     * metodo que indica que el jugador ha ganado
     */
     public void ganar (){
         this.terminado = false;
@@ -74,30 +84,32 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
         JOptionPane.showMessageDialog(null, "Ganaste!! Tu puntaje fue: " + this.cielo.getPuntaje());
        
     }
-
+    
+    /**
+    * Sobrescribe el metodo update para implementar doble buffer
+    */
     @Override
     public void update(Graphics g){
         cielo.paint(gImagenBuffer);
         g.drawImage(imagenBuffer, 0, 0, this);
     }
     
+    /**
+    * metodo paint que dibuja todos los elementos en la ventana
+    */
     @Override
     public void paint(Graphics g) {
-        super.paint(g);  // Limpia el fondo automáticamente
-
-        // Pintar el cielo de fondo (o la imagen de fondo)
+        super.paint(g);  // Limpia el fondo automaticamente
+        
         if (cielo != null) {
             cielo.paint(g);
         }
 
-        // Pintar los sprites que estén en el contenedor
         if (cielo != null) {
             for (Sprite sprite : cielo.getSprites()) {
                 sprite.paint(g);
             }
         }
-
-        // Aquí puedes pintar texto, puntaje, etc.
         g.setColor(Color.WHITE);
     }
    
@@ -135,7 +147,10 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+        /**
+        * Evento del teclado - KeyPressed
+        * @param evt
+       */
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         switch(evt.getKeyCode()){   
             
@@ -145,7 +160,10 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
         }
         repaint();                            
     }//GEN-LAST:event_formKeyPressed
-
+        /**
+        * Evento del mouse - MouseClicked
+        * @param evt
+       */
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         if (evt.getButton() == MouseEvent.BUTTON1) {  
             int x = evt.getX();

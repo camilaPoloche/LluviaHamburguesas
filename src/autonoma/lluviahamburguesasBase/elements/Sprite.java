@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 /**
  * Modelo que permite representar un GraphicContainer
  * @author Camila
- * @since 20250516
+ * @since 20250518
  * @version 1.0
 */
 public abstract class Sprite extends Canvas {

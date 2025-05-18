@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Modelo que representa un SpriteContainer
  * @author Mariana
- * @since 20250516
+ * @since 20250518
  * @version 1.0
 */
 public class SpriteContainer extends Sprite implements GraphicContainer{

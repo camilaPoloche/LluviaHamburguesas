@@ -8,7 +8,7 @@ import java.awt.Rectangle;
 /**
  * Modelo que permite representar un GraphicContainer
  * @author Camila
- * @since 20250516
+ * @since 20250517
  * @version 1.0
 */
 public interface GraphicContainer {
