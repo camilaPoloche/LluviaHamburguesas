@@ -17,31 +17,22 @@ import javax.imageio.ImageIO;
  * @author maria
  */
 public class Veneno extends Sprite{
-      /**
+    /**
      * Ancho inicial de la pulga
      */
     public static final int INITIAL_WIDTH = 50;
-
     /**
      * Alto inicial de la pulga
      */
     public static final int INITIAL_HEIGHT = 50;
-
-    /**
-     * Tamaño que crece la pulga en ciertos eventos
-     */
-    public static final int GROW_SIZE = 4;
-
     /**
      * Imagen asociada a la pulga
      */
     private BufferedImage image;
-
     /**
      * Paso que avanza
      */
     protected int step = 5;
-    
     /**
      * Velocidad del movimiento en Y
     */

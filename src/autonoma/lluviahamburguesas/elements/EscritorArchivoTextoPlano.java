@@ -12,30 +12,31 @@ import java.nio.charset.Charset;
 
 /**
  * Modelo que permite representar un Escritor de archivo de texto plano 
- * @author Alejandro
+ * @author Camila
  * @since 20250516
  * @version 1.0
 */
-
 public class EscritorArchivoTextoPlano implements Escritor {
     //Atributos
     /**
-     * charset en el cual se desea leer el archivo
+     * Charset en el cual se desea leer el archivo
     */
     private final Charset charset = Charset.forName("UTF-8");
-    
     /**
     * Ubicacion del archivo
     */
     private String filePath;
 
+    /**
+    * Inicializa los atributos de la clase EscritorArchivoTextoPlano
+    * @param filePath
+   */
     public EscritorArchivoTextoPlano(String filePath) {
         this.filePath = filePath;
     }
  
     /**
      * Sobreescribe el archivo de texto
-     * 
      * @throws IOException 
     */
     @Override

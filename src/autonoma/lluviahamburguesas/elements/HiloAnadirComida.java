@@ -3,24 +3,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package autonoma.lluviahamburguesas.elements;
-
 /**
- *
- * @author maria
- */
+ * Modelo que permite representar el HiloAnadirComida
+ * @author Mariana
+ * @since 20250517
+ * @version 1.0
+*/
 public class HiloAnadirComida implements Runnable {
     /**
-     * instancia de la clase Cielo
+     * Instancia de la clase Cielo
     */
     private Cielo cielo;
-    
-     /**
-     * bandera de control para determinar la ejecucion 
+    /**
+     * Bandera de control para determinar la ejecucion 
     */
     private boolean running = true;
 
-     /**
-    * Inicializa los atributos de la clase HiloAnadirPulgaMutante
+    /**
+    * Inicializa los atributos de la clase HiloAnadirComida
     * @param cielo
     */
     public HiloAnadirComida(Cielo cielo) {
@@ -34,9 +34,8 @@ public class HiloAnadirComida implements Runnable {
     public void run() {
         while (running) {
             this.cielo.agregarSprites(1, 0);
-
             try {
-                Thread.sleep(1000); // Espera 1 segundo antes de revisar de nuevo
+                Thread.sleep(1500); 
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }

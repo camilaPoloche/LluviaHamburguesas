@@ -11,24 +11,26 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 /**
- *
- * @author maria
- */
+ * Modelo que permite representar la clase Cielo
+ * @author Camila
+ * @since 20250517
+ * @version 1.0
+*/
 public class Cielo extends SpriteContainer implements GraphicContainer {
-         /**
+    /**
      * Instancia de la clase Comida
-     */
+    */
     private Comida comida;
-    
+    /**
+     * Bandera que indica si el juego se acabo no
+    */
     private boolean acabado = false;
-
     /**
      * Instancia de la clase Veneno
      */
@@ -38,29 +40,39 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
      * Instancia para escribir archivos de texto plano
      */
     private EscritorArchivoTextoPlano escritor;
-
     /**
      * Instancia para leer archivos de texto plano
      */
     private LectorArchivoTextoPlano lector;
-
     /**
      * Puntaje actual del jugador
-     */
+    */
     private int puntaje;
-
+    /**
+     * Cantidad de comida en pantalla
+    */
     private int cantidadComida = 0;
+    /**
+     * Cantidad de veneno en pantalla
+    */
     private int cantidadVeneno = 0;
+    /**
+     * Arreglo copia de Sprites
+    */
     ArrayList<Sprite> copiaSprites = new ArrayList<>(sprites);
+    /**
+     * Imagen
+    */
     private BufferedImage image;
 
 
     /**
-     * Constructor que inicializa los atributos y configura las pulgas iniciales en la montaña
-     * @param x posición en X del contenedor
-     * @param y posición en Y del contenedor
-     * @param height altura del contenedor
-     * @param width ancho del contenedor
+     * Constructor que inicializa los atributos de la clase Cielo
+     * @param x 
+     * @param y 
+     * @param height
+     * @param width 
+     * @param path
      */
     public Cielo(String path, int x, int y, int height, int width) {
         super(path, x, y, height, width);
@@ -84,6 +96,11 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
         this.puntaje = 0;
     }
     
+    /**
+     * Metodo que agrega los Sprites (Comida y veneno) al arreglo
+     * @param comidasFaltantes
+     * @param venenosFaltantes
+    */
     public void agregarSprites(int comidasFaltantes, int venenosFaltantes) {
         for (int i = 0; i < comidasFaltantes; i++) {
             this.sprites.add(this.addComida());
@@ -96,6 +113,10 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
         }
     }
     
+    /**
+     * Metodo que retorna Comida - Verifica antes de la creacion si colisiona con otra o no
+     * @return Comida
+    */
     public Comida addComida() {
         int w = 50;
         int h = 50;
@@ -123,6 +144,10 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
         return comida;
     }
 
+    /**
+     * Metodo que retorna Veneno - Verifica antes de la creacion si colisiona con otro o no
+     * @return Veneno
+    */
     public Veneno addVeneno() {
         int w = 50;
         int h = 50;
@@ -152,9 +177,9 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
     }
 
     /**
-     * Atrapa sprite cercanas a una coordenada con el mouse
-     * @param x posición X del disparo
-     * @param y posición Y del disparo
+     * Atrapa sprite cercano a una coordenada con el mouse
+     * @param x 
+     * @param y 
      * @throws IOException
      */
     public void atraparSprite(int x, int y) throws IOException {
@@ -189,7 +214,7 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
 
     /**
      * Actualiza el puntaje y lo guarda en un archivo
-     * @param nuevoPuntaje nuevo valor del puntaje
+     * @param nuevoPuntaje 
      * @throws IOException
      */
     public void actualizarPuntaje(int nuevoPuntaje) throws IOException {
@@ -211,7 +236,7 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
 
     /**
      * Dibuja los elementos graficos del juego sobre el panel
-     * @param g contexto gráfico
+     * @param g 
      */
     @Override
     public void paint(Graphics g) {
@@ -246,7 +271,7 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
 
     /**
      * Devuelve los limites del area del juego
-     * @return limites como objeto Rectangle
+     * @return Rectangle
      */
     @Override
     public Rectangle getBoundaries() {
@@ -256,7 +281,7 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
 
     /**
      * Retorna la lista de sprites actuales
-     * @return lista de sprites
+     * @return sprites
      */
     public ArrayList<Sprite> getSprites() {
         return sprites;
@@ -281,20 +306,6 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
     }
     
     /**
-     * Reinicia el puntaje y el arreglo de sprites
-     * @throws IOException
-     */
-    public void reiniciarJuego() throws IOException {
-        this.puntaje = 0;
-        this.sprites.clear(); 
-        this.copiaSprites.clear();
-        this.acabado = false;
-        this.actualizarPuntaje(0);
-        this.agregarSprites(4, 4);
-        this.refresh();
-    }
-
-    /**
      * Devuelve una copia de los sprites 
      * @return copia de la lista de sprites
     */
@@ -318,18 +329,34 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
         this.acabado = acabado;
     }
 
+    /**
+     * Retorna la cantidad de comida en pantalla
+     * @return cantidadComida
+    */
     public int getCantidadComida() {
         return cantidadComida;
     }
 
+    /**
+     * Modifica la cantidad de comida en pantalla
+     * @param cantidadComida
+    */
     public void setCantidadComida(int cantidadComida) {
         this.cantidadComida = cantidadComida;
     }
 
+    /**
+     * Retorna la cantidad de veneno en pantalla
+     * @return cantidadVeneno
+    */
     public int getCantidadVeneno() {
         return cantidadVeneno;
     }
 
+    /**
+     * Modifica la cantidad de veneno en pantalla
+     * @param cantidadVeneno
+    */
     public void setCantidadVeneno(int cantidadVeneno) {
         this.cantidadVeneno = cantidadVeneno;
     }
