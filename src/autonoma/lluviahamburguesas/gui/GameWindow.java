@@ -99,18 +99,8 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
     */
     @Override
     public void paint(Graphics g) {
-        super.paint(g);  // Limpia el fondo automaticamente
-        
-        if (cielo != null) {
-            cielo.paint(g);
-        }
-
-        if (cielo != null) {
-            for (Sprite sprite : cielo.getSprites()) {
-                sprite.paint(g);
-            }
-        }
-        g.setColor(Color.WHITE);
+        update(g); 
+               
     }
    
     /**

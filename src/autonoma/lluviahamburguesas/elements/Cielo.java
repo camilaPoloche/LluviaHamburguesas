@@ -254,7 +254,7 @@ public class Cielo extends SpriteContainer implements GraphicContainer {
         g.drawString("Puntaje: ", 10, 55);
         g.drawString(this.puntaje + "", 120, 57);
 
-        for (Sprite sprite : copiaSprites) {
+        for (Sprite sprite : getSprites()) {
             sprite.paint(g);
         }
     }
