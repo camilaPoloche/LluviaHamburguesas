@@ -7,17 +7,18 @@ package autonoma.lluviahamburguesas.elements;
 import java.io.IOException;
 
 /**
- * Modelo que permite representar un lector
- * @author Mariana
- * @since 20250516
+ * Modelo que representa un lector de archivos
+ * @author alejandro
+ * @since 20250518
  * @version 1.0
-*/
+ */
 public interface Lector {
     /**
-     * Lee el archivo
-     * @param localizacionArchivo
+     * Metodo que lee un archivo dado su ruta
+     * 
+     * @param localizacionArchivo ruta del archivo a leer
      * @return
-     * @throws IOException 
-    */
+     * @throws IOException si ocurre un error al leer el archivo
+     */
     public abstract String leer(String localizacionArchivo) throws IOException;
 }

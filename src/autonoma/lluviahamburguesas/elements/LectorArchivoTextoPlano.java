@@ -10,37 +10,37 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-
 /**
- * Modelo que permite representar la lectura de un archivo
- * @author Mariana
- * @since 20250516
+ * Modelo que permite representar la lectura de un archivo de texto plano
+ * @author alejandro
+ * @since 20250517
  * @version 1.0
-*/
+ */
 public class LectorArchivoTextoPlano implements Lector{
+    
     /**
-     * Archivo del puntaje
-    */
+     * Contiene el contenido del archivo leido
+     */
     private String archivo;
+    
     /**
-     * Charset en el cual se desea leer el archivo
-    */
+     * Charset utilizado para la lectura del archivo
+     */
     private Charset charset = Charset.forName("UTF-8");
 
     /**
-     * metodo constructor
+     * Constructor por defecto
      */
     public LectorArchivoTextoPlano(){
     }
     
     /**
-     * Lee el archivo de texto donde tenemos el programa que deseamos interpretar
-     *
-     * @param localizacionArchivo ruta del archivo
-     * @return archivo de texto
-     * @throws IOException: si el archivo no existe
+     * Lee el contenido de un archivo de texto dado su ruta
+     * 
+     * @param localizacionArchivo ruta del archivo a leer
+     * @return cadena con el contenido del archivo
+     * @throws IOException si ocurre un error al abrir o leer el archivo
      */
-    
     public String leer(String localizacionArchivo) throws IOException {
         File file = new File(localizacionArchivo);
         FileReader reader = new FileReader(file);
@@ -48,19 +48,28 @@ public class LectorArchivoTextoPlano implements Lector{
 
         StringBuilder contenido = new StringBuilder();
         String linea;
+        
+        // Lee linea por linea hasta el final del archivo
         while ((linea = buffer.readLine()) != null) {
-            contenido.append(linea); 
+            contenido.append(linea);
         }
 
+        // Cierra los streams abiertos
         buffer.close();
         reader.close();
 
+        // Guarda el contenido leido en el atributo archivo
         this.archivo = contenido.toString().trim();
+        
         return this.archivo;
     }
 
+    /**
+     * Metodo para obtener la configuracion de pulgas almacenada
+     * 
+     * @return cadena con la configuracion de pulgas (contenido leido)
+     */
     public String getConfiguracionPulgas() {
         return archivo;
     }
 }
-
